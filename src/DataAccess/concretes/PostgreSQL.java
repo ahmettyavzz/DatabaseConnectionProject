@@ -1,7 +1,7 @@
 package DataAccess.concretes;
 
 import DataAccess.abstracts.Database;
-import Model.User;
+import Model.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,30 +11,37 @@ import java.util.List;
 
 public class PostgreSQL implements Database {
 
-    private User user=new User();
-    List<User> users;
-    public PostgreSQL(List<User>  users) {
+    List<Product> products;
+    public PostgreSQL(List<Product>  products) {
         System.out.println("PostgreSQL DB");
-        this.users=users;
+        this.products=products;
     }
 
     @Override
     public void connection() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/user","postgres","12345");
-            Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("Select* FROM user_table");
-
-            while(resultSet.next()){
-                User user=new User();
-
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                users.add(user);
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://89.252.189.2:5432/global_user","postgres","imoh");
 
 
+            for (int i=0;i<products.size();i++){
+                String sql=String.format("insert into %s(product_id,product_name,category) VALUES ('%s','%s','%s');","products"
+                        ,products.get(i).getProductId(),products.get(i).getProductName(),products.get(i).getCategory());
+                Statement statement=connection.createStatement();
+                statement.execute(sql);
             }
+
+
+
+
+          /*  while(resultSet.next()){
+                Product product=new Product();
+
+                product.setProductId( resultSet.getInt("product_id"));
+                product.setProductName(resultSet.getString("product_name"));
+                product.setCategory(resultSet.getString("category"));
+                products.add(product);
+
+            }*/
 
         }catch (Exception e){
             System.out.println(e.getMessage());        }
