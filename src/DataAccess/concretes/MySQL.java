@@ -1,7 +1,7 @@
 package DataAccess.concretes;
 
 import DataAccess.abstracts.Database;
-import Model.User;
+import Model.Product;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +10,10 @@ import java.sql.Statement;
 import java.util.List;
 
 public class MySQL implements Database {
-    private User user=new User();
-    List<User> users;
-    public MySQL(List<User>  users) {
+    List<Product> products;
+    public MySQL(List<Product>  products) {
         System.out.println("MYSQL DB");
-        this.users=users;
+        this.products=  products;
     }
 
     @Override
@@ -22,17 +21,16 @@ public class MySQL implements Database {
         try{
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/chat-app-db","root","prolab");
             Statement statement=connection.createStatement();
-            ResultSet resultSet=statement.executeQuery("Select* FROM user_table");
+            ResultSet resultSet=statement.executeQuery("Select* FROM products");
 
             while(resultSet.next()){
-                User user=new User();
+                Product product=new Product();
 
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                users.add(user);
+                product.setProductId(resultSet.getInt("id"));
+                product.setProductName(resultSet.getString("products_name"));
+                product.setCategory(resultSet.getString("category"));
+                products.add(product);
 
-                System.out.println(resultSet.getString("username"));
 
             }
         } catch (Exception e){
