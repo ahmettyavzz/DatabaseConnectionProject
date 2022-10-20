@@ -32,17 +32,6 @@ public class PostgreSQL implements Database {
 
 
 
-
-          /*  while(resultSet.next()){
-                Product product=new Product();
-
-                product.setProductId( resultSet.getInt("product_id"));
-                product.setProductName(resultSet.getString("product_name"));
-                product.setCategory(resultSet.getString("category"));
-                products.add(product);
-
-            }*/
-
         }catch (Exception e){
             System.out.println(e.getMessage());        }
 
